@@ -26,11 +26,11 @@ pipeline {
       }
 
       steps {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
-          usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
-            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            docker push $IMAGE_NAME:$BUILD_ID
+            echo $(aws ecr get-login --region us-east-2 --registry-ids 410602862282) > file.txt
+            sh '$( sed "s/-e none//g" file.txt)'
+            sh 'sudo docker tag $IMAGE_NAME 410602862282.dkr.ecr.us-east-2.amazonaws.com/demo-poc:$IMAGE_NAME-${BUILD_ID}'
+            sh 'sudo docker push 410602862282.dkr.ecr.us-east-2.amazonaws.com/demo-poc:$IMAGE_NAME-${BUILD_ID}'
           '''
         }
       }
@@ -42,12 +42,11 @@ pipeline {
 
       environment {
         RELEASE_NAME = 'seanmeme-staging'
-        SERVER_HOST = 'staging.seanmeme.k8s.prydoni.us'
+        SERVER_HOST = 'staging.sogendh.com'
       }
 
       steps {
         sh '''
-          . ./helm/helm-init.sh
           helm upgrade --install --namespace staging $RELEASE_NAME ./helm/seanmeme --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
         '''
       }
