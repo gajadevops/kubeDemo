@@ -74,7 +74,6 @@ pipeline {
 
       steps {
         sh '''
-          . ./helm/helm-init.sh
           helm upgrade --install --namespace production $RELEASE_NAME ./helm/seanmeme --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
         '''
       }
