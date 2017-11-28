@@ -34,7 +34,6 @@ pipeline {
           '''
         }
       }
-    }
     stage('Staging Deployment') {
       when {
         expression { env.BRANCH_NAME == 'master' }
@@ -81,4 +80,6 @@ pipeline {
       }
     }
   }
+
+}
 
