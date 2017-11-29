@@ -43,7 +43,7 @@ pipeline {
 
       steps {
         sh '''
-          helm upgrade --install --namespace staging $RELEASE_NAME ./helm/seanmeme --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
+          helm upgrade --install --namespace staging $RELEASE_NAME ./helm/kubedemo --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
         '''
       }
     }
@@ -71,7 +71,7 @@ pipeline {
 
       steps {
         sh '''
-          helm upgrade --install --namespace production $RELEASE_NAME ./helm/seanmeme --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
+          helm upgrade --install --namespace production $RELEASE_NAME ./helm/kubedemo --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
         '''
       }
     }
