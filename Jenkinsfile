@@ -69,7 +69,7 @@ pipeline {
 
       environment {
         RELEASE_NAME = 'demo-production'
-        SERVER_HOST = 'staging.sogendh.com'
+        SERVER_HOST = 'production.sogendh.com'
       }
 
       steps {
