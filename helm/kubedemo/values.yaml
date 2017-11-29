@@ -10,7 +10,7 @@ service:
   name: http
   type: LoadBalancer
   externalPort: 80
-  internalPort: 8080
+  internalPort: 5000
 ingress:
   host: demo.local
   # Enable automatic TLS with Let's Encrypt
