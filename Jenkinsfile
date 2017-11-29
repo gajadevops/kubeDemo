@@ -28,8 +28,8 @@ pipeline {
           sh '''
             echo $(aws ecr get-login --region us-east-2 --registry-ids 958306274796) > file.txt
             $( sed "s/-e none//g" file.txt)
-            sudo docker tag $IMAGE_NAME:${BUILD_ID} 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}
-            sudo docker push 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}
+            sudo docker tag $IMAGE_NAME:${BUILD_ID} 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:$IMAGE_NAME:${BUILD_ID}
+            sudo docker push 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:$IMAGE_NAME:${BUILD_ID}
           '''
         }
       }
