@@ -8,7 +8,7 @@ image:
   pullPolicy: IfNotPresent
 service:
   name: http
-  type: ClusterIP
+  type: LoadBalancer
   externalPort: 80
   internalPort: 8080
 ingress:

@@ -40,7 +40,7 @@ pipeline {
       }
 
       environment {
-        RELEASE_NAME = 'seanmeme-staging'
+        RELEASE_NAME = 'demo-staging'
         SERVER_HOST = 'staging.sogendh.com'
       }
 
@@ -68,8 +68,8 @@ pipeline {
       }
 
       environment {
-        RELEASE_NAME = 'seanmeme-production'
-        SERVER_HOST = 'seanmeme.k8s.prydoni.us'
+        RELEASE_NAME = 'demo-production'
+        SERVER_HOST = 'staging.sogendh.com'
       }
 
       steps {
