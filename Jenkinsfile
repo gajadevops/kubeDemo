@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Helm client installation') {
       steps {
-        sh 'helm init --client-only'
+        sh 'helm init'
       }
     }
     stage('Build') {
