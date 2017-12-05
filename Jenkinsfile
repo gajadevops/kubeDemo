@@ -4,8 +4,13 @@ pipeline {
   }
 
   agent any
-
+  
   stages {
+    stage('Helm client installation') {
+      steps {
+        sh 'helm init --client-only'
+      }
+    }
     stage('Build') {
       steps {
         checkout scm
@@ -14,7 +19,7 @@ pipeline {
         '''
       }
     }
-    stage('Test') {
+    stage('Test Case') {
       steps {
         echo 'TODO: add tests'
       }
