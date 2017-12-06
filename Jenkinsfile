@@ -6,11 +6,6 @@ pipeline {
   agent any
   
   stages {
-    stage('Helm client installation') {
-      steps {
-        sh 'helm init'
-      }
-    }
     stage('Build') {
       steps {
         checkout scm
