@@ -1,10 +1,5 @@
 pipeline {
-  environment {
-    IMAGE_NAME = 'demohelm'
-  }
-
   agent any
-  
   stages {
     stage('Build') {
       steps {
@@ -14,33 +9,36 @@ pipeline {
         '''
       }
     }
-    stage('Test Case') {
+    stage('Testing') {
       steps {
         echo 'TODO: add tests'
       }
     }
-    stage('Image Release') {
+    stage('Create Image & Release') {
       when {
-        expression { env.BRANCH_NAME == 'master' }
+        expression {
+          env.BRANCH_NAME == 'master'
+        }
+        
       }
-
       steps {
         sh 'echo $(aws ecr get-login --region us-east-1 --registry-ids 958306274796) > file.txt'
         sh 'sudo $( sed "s/-e none//g" file.txt)'
         sh 'sudo  docker tag $IMAGE_NAME:${BUILD_ID} 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
         sh 'sudo docker push 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
-        }
       }
+    }
     stage('Staging Deployment') {
       when {
-        expression { env.BRANCH_NAME == 'master' }
+        expression {
+          env.BRANCH_NAME == 'master'
+        }
+        
       }
-
       environment {
         RELEASE_NAME = 'demo-staging'
         SERVER_HOST = 'staging.healthgrades.zone'
       }
-
       steps {
         sh '''
           helm upgrade --install --namespace staging $RELEASE_NAME ./helm/kubedemo --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
@@ -49,26 +47,28 @@ pipeline {
     }
     stage('Deploy to Production?') {
       when {
-        expression { env.BRANCH_NAME == 'master' }
+        expression {
+          env.BRANCH_NAME == 'master'
+        }
+        
       }
-
       steps {
-        // Prevent any older builds from deploying to production
-        milestone(1)
+        milestone 1
         input 'Deploy to Production?'
-        milestone(2)
+        milestone 2
       }
     }
     stage('Production Deployment') {
       when {
-        expression { env.BRANCH_NAME == 'master' }
+        expression {
+          env.BRANCH_NAME == 'master'
+        }
+        
       }
-
       environment {
         RELEASE_NAME = 'demo-production'
         SERVER_HOST = 'production.healthgrades.zone'
       }
-
       steps {
         sh '''
           helm upgrade --install --namespace production $RELEASE_NAME ./helm/kubedemo --set image.tag=$BUILD_ID,ingress.host=$SERVER_HOST
@@ -76,6 +76,7 @@ pipeline {
       }
     }
   }
-
+  environment {
+    IMAGE_NAME = 'demohelm'
+  }
 }
-
