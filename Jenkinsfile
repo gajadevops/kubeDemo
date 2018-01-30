@@ -22,10 +22,10 @@ pipeline {
         
       }
       steps {
-        sh 'echo $(aws ecr get-login --region us-east-1 --registry-ids 958306274796) > file.txt'
+        sh 'echo $(aws ecr get-login --region us-east-1 --registry-ids 410602862282) > file.txt'
         sh 'sudo $( sed "s/-e none//g" file.txt)'
-        sh 'sudo  docker tag $IMAGE_NAME:${BUILD_ID} 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
-        sh 'sudo docker push 958306274796.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
+        sh 'sudo  docker tag $IMAGE_NAME:${BUILD_ID} 410602862282.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
+        sh 'sudo docker push 410602862282.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
       }
     }
     stage('Staging Deployment') {
@@ -37,7 +37,7 @@ pipeline {
       }
       environment {
         RELEASE_NAME = 'demo-staging'
-        SERVER_HOST = 'staging.healthgrades.zone'
+        SERVER_HOST = 'staging.hm.zone'
       }
       steps {
         sh '''
@@ -67,7 +67,7 @@ pipeline {
       }
       environment {
         RELEASE_NAME = 'demo-production'
-        SERVER_HOST = 'production.healthgrades.zone'
+        SERVER_HOST = 'production.hm.zone'
       }
       steps {
         sh '''
