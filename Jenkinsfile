@@ -25,7 +25,7 @@ pipeline {
         sh 'echo $(aws ecr get-login --region us-east-1 --registry-ids 410602862282) > file.txt'
         sh 'sudo $( sed "s/-e none//g" file.txt)'
         sh 'sudo  docker tag $IMAGE_NAME:${BUILD_ID} 410602862282.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
-        sh 'sudo docker push 410602862282.dkr.ecr.us-east-1.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
+        sh 'sudo docker push 410602862282.dkr.ecr.us-east-2.amazonaws.com/demo-jenkins-pipeline:${BUILD_ID}'
       }
     }
     stage('Staging Deployment') {
